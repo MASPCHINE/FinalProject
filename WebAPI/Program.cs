@@ -28,7 +28,7 @@ builder.RegisterModule(new AutofacBusinessModule());
 
 builder.Services.AddControllers();
 
-//builder.Services.AddCors();
+builder.Services.AddCors();
 //builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
@@ -53,9 +53,6 @@ builder.Services.AddDependecyResolvers(new ICoreModule[]
     new CoreModule()
 });
 
-
-
-
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -68,7 +65,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors();
+
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
 
 app.UseHttpsRedirection();
 
